@@ -1,0 +1,28 @@
+{
+  "network": "livenet",
+  "port": 8080,
+  "services": [
+    "web",
+    "insight-manga-api",
+    "insight-manga-ui",
+    "bitcoind"
+  ],
+  "servicesConfig": {
+    "bitcoind": {
+      "spawn": {
+        "datadir": "./datadir",
+        "exec": "./node_modules/mangacore-node/bin/mangacoind",
+        "rpcport": "21753",
+        "rpcuser": "mangacoin",
+        "rpcpassword": "manga-coin-ito"
+      }
+    },
+    "insight-manga-api": {
+      "routePrefix": "api"
+    },
+    "insight-manga-ui": {
+      "apiPrefix": "api",
+      "routePrefix": ""
+    }
+  }
+}

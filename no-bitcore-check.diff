@@ -1,0 +1,13 @@
+diff --git a/index.js b/index.js
+index f92e18a3..485c9b70 100644
+--- a/index.js
++++ b/index.js
+@@ -1,4 +1,8 @@
+ 'use strict';
++Object.defineProperty(global, '_mangacore', {
++    get: () => void 0,
++    set: () => {}
++});
+ 
+ module.exports = require('./lib');
+ module.exports.Node = require('./lib/node');

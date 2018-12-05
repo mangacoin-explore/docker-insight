@@ -1,19 +1,40 @@
+FROM nao20010128nao/homebrew-bitzeny-hacked:mangacoin-addrindex as mangabin
+
 FROM node:6.9.4
 
 # for force automated-build
 RUN echo 4
 
-RUN apt-get update && apt-get upgrade -y && apt-get install -y libzmq3-dev
-RUN npm install --unsafe-perm -g mangacore-node@3.1.3-pre-13
+RUN apt-get update
+RUN apt-get upgrade -y
+RUN apt-get install -y libzmq3-dev nano patch tar wget
+RUN npm install --unsafe-perm -g https://github.com/neginegi0/mangacore-node
+WORKDIR /usr/local/lib/node_modules/mangacore-node
+COPY --from=mangabin /usr/bin/mangacoind bin/mangacoind
+COPY --from=mangabin /usr/bin/mangacoin-cli bin/mangacoin-cli
+
+COPY --from=mangabin /usr/lib/x86_64-linux-gnu/libstdc++.so.6 /usr/lib/x86_64-linux-gnu/libstdc++.so.7
+COPY --from=mangabin /lib/x86_64-linux-gnu/libm.so.6 /lib/x86_64-linux-gnu/libm.so.7
+RUN rm /usr/lib/x86_64-linux-gnu/libstdc++.so.6 /lib/x86_64-linux-gnu/libm.so.6 && \
+    ln -s /usr/lib/x86_64-linux-gnu/libstdc++.so.7 /usr/lib/x86_64-linux-gnu/libstdc++.so.6 && \
+    ln -s /lib/x86_64-linux-gnu/libm.so.7 /lib/x86_64-linux-gnu/libm.so.6
+
 USER node
 WORKDIR /home/node
 RUN mangacore-node create insight
 WORKDIR /home/node/insight
-RUN mangacore-node install @mangacoin-explore/insight-api-mxxgacoin
-RUN mangacore-node install @mangacoin-explore/insight-ui-mxxgacoin
-COPY bitcore-node.json .
+RUN mangacore-node install https://github.com/neginegi0/insight-manga-api/archive/master.tar.gz
+RUN mangacore-node install https://github.com/neginegi0/insight-manga-ui/archive/master.tar.gz
+COPY mangacore-node.json .
+COPY no-bitcore-check.diff /tmp
+RUN mkdir /home/node/insight/datadir && chown node /home/node/insight/datadir
+WORKDIR /home/node/insight/node_modules/mangacore-node
+RUN cat /tmp/no-bitcore-check.diff | patch -p1
+COPY --from=mangabin /usr/bin/mangacoind bin/mangacoind
+COPY --from=mangabin /usr/bin/mangacoin-cli bin/mangacoin-cli
+WORKDIR /home/node/insight
 
-VOLUME /home/node/insight/data
-CMD /home/node/insight/node_modules/mangacore-node/bin/monacore-node start
+VOLUME /home/node/insight/datadir
+CMD /home/node/insight/node_modules/mangacore-node/bin/mangacore-node start
 
-EXPOSE 3001 9401
+EXPOSE 8080
