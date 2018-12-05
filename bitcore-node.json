@@ -14,7 +14,7 @@
     "bitcoind": {
       "spawn": {
         "datadir": "./data",
-        "exec": "/usr/local/lib/node_modules/monacore-node/bin/monacoind"
+        "exec": "/usr/local/lib/node_modules/mangacore-node/bin/mangacoind"
       }
     }
   }
