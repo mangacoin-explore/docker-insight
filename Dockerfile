@@ -4,7 +4,7 @@ FROM node:6.9.4
 RUN echo 4
 
 RUN apt-get update && apt-get upgrade -y && apt-get install -y libzmq3-dev
-RUN npm install --unsafe-perm -g mangacore-node@3.1.3-pre-7
+RUN npm install --unsafe-perm -g mangacore-node@3.1.3-pre-12
 USER node
 WORKDIR /home/node
 RUN mangacore-node create insight

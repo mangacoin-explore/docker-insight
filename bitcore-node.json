@@ -3,8 +3,8 @@
   "port": 3001,
   "services": [
     "bitcoind",
-    "insight-api-mxxgacoin",
-    "insight-ui-mxxgacoin",
+    "@mangacoin-explore/insight-api-mxxgacoin",
+    "@mangacoin-explore/insight-ui-mxxgacoin",
     "web"
   ],
   "servicesConfig": {
