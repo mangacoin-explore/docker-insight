@@ -3,16 +3,14 @@
   "port": 3001,
   "services": [
     "bitcoind",
-    "insight-api-monacoin",
-    "insight-ui-monacoin",
+    "insight-api-mxxgacoin",
+    "insight-ui-mxxgacoin",
     "web"
   ],
   "servicesConfig": {
-    "insight-ui-monacoin": {
+    "insight-ui-mxxgacoin": {
       "routePrefix": ""
-    }
-  },
-  "servicesConfig": {
+    },
     "bitcoind": {
       "spawn": {
         "datadir": "./data",
