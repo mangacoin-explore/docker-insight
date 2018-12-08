@@ -2,9 +2,6 @@ FROM nao20010128nao/homebrew-bitzeny-hacked:mangacoin-addrindex as mangabin
 
 FROM node:6.9.4
 
-# for force automated-build
-RUN echo 4
-
 RUN apt-get update
 RUN apt-get upgrade -y
 RUN apt-get install -y libzmq3-dev nano patch tar wget
@@ -16,7 +13,8 @@ COPY --from=mangabin /usr/lib/x86_64-linux-gnu/libstdc++.so.6 /usr/lib/x86_64-li
 COPY --from=mangabin /lib/x86_64-linux-gnu/libm.so.6 /lib/x86_64-linux-gnu/libm.so.7
 RUN rm /usr/lib/x86_64-linux-gnu/libstdc++.so.6 /lib/x86_64-linux-gnu/libm.so.6 && \
     ln -s /usr/lib/x86_64-linux-gnu/libstdc++.so.7 /usr/lib/x86_64-linux-gnu/libstdc++.so.6 && \
-    ln -s /lib/x86_64-linux-gnu/libm.so.7 /lib/x86_64-linux-gnu/libm.so.6
+    ln -s /lib/x86_64-linux-gnu/libm.so.7 /lib/x86_64-linux-gnu/libm.so.6 && \
+    /usr/bin/mangacoind -version
 
 USER node
 WORKDIR /home/node
