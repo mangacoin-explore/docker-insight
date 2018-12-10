@@ -1,13 +1,16 @@
 FROM nao20010128nao/homebrew-bitzeny-hacked:mangacoin-addrindex as mangabin
+FROM nao20010128nao/homebrew-bitzeny-hacked:mangacoin-sane as mangabin-normal
 
 FROM node:6.9.4
 
 RUN apt-get update
 RUN apt-get upgrade -y
 RUN apt-get install -y libzmq3-dev nano patch tar wget
-RUN npm install --unsafe-perm -g https://github.com/neginegi0/mangacore-node
+RUN npm install --unsafe-perm -g https://github.com/mangacoin-explore/mangacore-node
 WORKDIR /usr/local/lib/node_modules/mangacore-node
 COPY --from=mangabin /usr/bin/mangacoind /usr/bin/mangacoind
+COPY --from=mangabin-normal /usr/bin/mangacoind /usr/bin/mangacoind-normal
+COPY --from=mangabin /usr/bin/mangacoin-cli /usr/bin/mangacoin-cli
 
 COPY --from=mangabin /usr/lib/x86_64-linux-gnu/libstdc++.so.6 /usr/lib/x86_64-linux-gnu/libstdc++.so.7
 COPY --from=mangabin /lib/x86_64-linux-gnu/libm.so.6 /lib/x86_64-linux-gnu/libm.so.7
@@ -22,10 +25,8 @@ RUN mangacore-node create insight
 WORKDIR /home/node/insight
 RUN mangacore-node install https://github.com/neginegi0/insight-manga-api/archive/master.tar.gz https://github.com/neginegi0/insight-manga-ui/archive/master.tar.gz
 COPY mangacore-node.json .
-COPY no-bitcore-check.diff /tmp
-RUN mkdir /home/node/insight/datadir && chown node:node /home/node/insight/datadir
+RUN mkdir /home/node/insight/datadir && chown node:node /home/node/insight/datadir && ln -s /home/node/insight/datadir /home/node/.mangacoin
 WORKDIR /home/node/insight/node_modules/mangacore-node
-RUN cat /tmp/no-bitcore-check.diff | patch -p1
 COPY --chown=node:node mangacoind-wrapper bin/mangacoind
 RUN chmod a=rx bin/mangacoind
 WORKDIR /home/node/insight
