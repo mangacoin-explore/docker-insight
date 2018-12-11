@@ -1,2 +1,2 @@
 #!/bin/bash
-/usr/bin/mangacoind -maxmempool=900 -rpcworkqueue=16384 "$@"
+/usr/bin/mangacoind -maxmempool=900 -rpcworkqueue=16384 -checkblocks=5 "$@"
