@@ -32,6 +32,7 @@ RUN chmod a=rx bin/mangacoind
 ENV DATADIR=/home/node/insight/datadir
 
 VOLUME /home/node/insight/datadir
+WORKDIR /home/node/insight/
 CMD /home/node/insight/node_modules/mangacore-node/bin/mangacore-node start
 
 EXPOSE 8080
