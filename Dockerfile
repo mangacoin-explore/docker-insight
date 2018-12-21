@@ -29,7 +29,7 @@ RUN mkdir /home/node/insight/datadir && chown node:node /home/node/insight/datad
 WORKDIR /home/node/insight/node_modules/mangacore-node
 COPY --chown=node:node mangacoind-wrapper bin/mangacoind
 RUN chmod a=rx bin/mangacoind
-WORKDIR /home/node/insight
+ENV DATADIR=/home/node/insight/datadir
 
 VOLUME /home/node/insight/datadir
 CMD /home/node/insight/node_modules/mangacore-node/bin/mangacore-node start

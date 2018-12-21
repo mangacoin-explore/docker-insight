@@ -1,3 +1,7 @@
 #!/bin/bash
-/usr/bin/mangacoind -maxmempool=400 -rpcworkqueue=16384 -checkblocks=5 "$@" &
+(
+    while ! [ -f $DATADIR/stopping ]  ; do
+        /usr/bin/mangacoind -maxmempool=400 -rpcworkqueue=16384 -checkblocks=5 "$@" 
+    done
+) &
 tail -f /dev/null
