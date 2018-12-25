@@ -23,7 +23,7 @@ USER node
 WORKDIR /home/node
 RUN mangacore-node create insight
 WORKDIR /home/node/insight
-RUN mangacore-node install https://github.com/neginegi0/insight-manga-api/archive/master.tar.gz https://github.com/neginegi0/insight-manga-ui/archive/master.tar.gz
+RUN mangacore-node install https://github.com/mangacoin-explore/insight-manga-api/archive/master.tar.gz https://github.com/mangacoin-explore/insight-manga-ui/archive/master.tar.gz
 COPY mangacore-node.json .
 RUN mkdir /home/node/insight/datadir && chown node:node /home/node/insight/datadir && ln -s /home/node/insight/datadir /home/node/.mangacoin
 WORKDIR /home/node/insight/node_modules/mangacore-node
