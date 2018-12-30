@@ -5,8 +5,8 @@ services:
 
 build:
   script:
-    - if [ "LM26/homebrew-bitzeny-hacked" == "$CI_PROJECT_PATH" ]; then docker login -u "nao20010128nao" -p "$DOCKER_PASS" ; fi
-    - if [ "LM26/homebrew-bitzeny-hacked" == "$CI_PROJECT_PATH" ]; then docker login -u "LM26" -p "$GITLAB_PASS" registry.gitlab.com ; fi
+    - if [ "LM26/docker-insight-manga" == "$CI_PROJECT_PATH" ]; then docker login -u "nao20010128nao" -p "$DOCKER_PASS" ; fi
+    - if [ "LM26/docker-insight-manga" == "$CI_PROJECT_PATH" ]; then docker login -u "LM26" -p "$GITLAB_PASS" registry.gitlab.com ; fi
     - docker build -t nao20010128nao/my-docker-images:manga-insight -t registry.gitlab.com/lm26/docker-insight-manga:latest .
     - docker push registry.gitlab.com/lm26/docker-insight-manga:latest
     - docker push nao20010128nao/my-docker-images:manga-insight
